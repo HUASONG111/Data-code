@@ -76,7 +76,7 @@ Run the following MATLAB script:
 
 ### Expected Runtime:
 
-* R scripts: \~5 minutes to **up to 12 hours**, depending on the dataset size and spatial extent (e.g., global scale)
+* R scripts: \~30 minutes to **up to 12 hours**, depending on the dataset size and spatial extent (e.g., global scale)
 * Python notebooks: \~2–3 minutes
 * MATLAB: \~1 minute
 
@@ -104,10 +104,3 @@ All quantitative results in the associated manuscript can be fully reproduced us
 * Use fixed seeds in R for reproducibility of parallel models
 * Outputs from each stage are saved and reused by subsequent scripts
 
----
-
-## 7. Contact
-
-For questions, suggestions, or technical issues, please contact:
-**\[Your Name]**
-Email: **[your.email@example.com](mailto:your.email@example.com)**
