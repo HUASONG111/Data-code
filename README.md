@@ -50,7 +50,7 @@ This project investigates the lagged response of sea surface chlorophyll-a (Chla
 
 ## 4. Demo
 
-A small simulated dataset is provided in the `data/` folder.
+A small dataset is included in the `data/` folder for demonstration purposes, containing simulated data and small samples from the original dataset.
 
 ### Execution Order:
 
@@ -58,11 +58,10 @@ A small simulated dataset is provided in the `data/` folder.
 Run the following R scripts in order:
 
 * `Find lag onset time and duration.R` – identify lag timing and duration
-* `Lagged response across four Longhurst biomes. .R` – model across biomes
-* `Forest plot.R` – generate forest plot
 * `Meta analysis.R` – perform meta-analysis
 * `Games-Howell test.R` – statistical testing (Games-Howell)
-
+* `Forest plot.R` – generate forest plot
+  
 **2. Python Notebooks (Visualization)**
 Open and run the following `.ipynb` notebooks in VSCode or Jupyter:
 
