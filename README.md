@@ -97,9 +97,9 @@ To apply the workflow to your own data:
 
 ## 6. Reproducibility
 
-This workflow allows users to reproduce the full analysis pipeline described in the manuscript. 
+This workflow allows users to reproduce the full analysis pipeline. 
 
 * Software versions used: R (4.4.1), Python (3.12.7), MATLAB (R2024a)
 * Fixed random seeds (e.g., `set.seed(123)`) were used in R scripts to ensure consistent results from stochastic processes.
-* The actual data used in the manuscript are not shared. However, all code, analysis steps, and output formats are identical, enabling full reproducibility of the methodology.
+* The actual data are not shared. However, all code, analysis steps, and output formats are identical, enabling full reproducibility of the methodology.
 
