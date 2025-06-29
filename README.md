@@ -28,7 +28,7 @@ This project investigates the lagged response of sea surface chlorophyll-a (Chla
   * Install required packages with pip:
 
     ```bash
-    pip install numpy pandas matplotlib seaborn notebook
+    pip install numpy pandas matplotlib seaborn notebook cartopy shapely pyshp pyproj scipy
     ```
   * Recommended: use **Visual Studio Code (VSCode)** with the **Python** and **Jupyter** extensions to run `.ipynb` files interactively.
 
