@@ -13,7 +13,7 @@ This project investigates the lagged response of sea surface chlorophyll-a (Chla
 ## 2. System Requirements
 
 * Operating System: Windows/macOS/Linux (tested on macOS 14.6)
-* Python 3.12.7 with necessary packages (`numpy`, `pandas`, `matplotlib`, `seaborn`, `notebook`)
+* Python 3.12.7 with necessary packages (`numpy`, `pandas`, `matplotlib`, `seaborn`, `notebook`, etc.)
 * R 4.4.1 with required packages (`mgcv`, `dlnm`, `mvmeta`, `data.table`, `doParallel`, etc.)
 * MATLAB 2024a (R24.2) with standard visualization toolboxes
 * Recommended: A multi-core CPU (number of cores should be selected based on your computer’s configuration)
@@ -38,44 +38,81 @@ This project investigates the lagged response of sea surface chlorophyll-a (Chla
   * Install required packages using:
 
     ```r
-    install.packages(c("mgcv", "dlnm", "mvmeta", "data.table", "doParallel"))
+    install.packages(c("mgcv", "dlnm", "dplyr", "ggplot2", "mvmeta", "data.table", "doParallel", "cowplot", "parallel", "readxl", "patchwork", "rstatix"))
     ```
-
+ 
 * **MATLAB**:
 
   * Install MATLAB 2024a (R24.2)
   * No additional toolboxes required beyond the default installation
 
+**Typical install time on a standard desktop computer:**
+
+* Python environment: ~5–10 minutes  
+* R environment: ~5–10 minutes  
+* MATLAB setup: ~15–30 minutes (depending on installer and licensing, one-time)
+* Times may vary depending on network speed and whether the software has been previously installed.
 ---
 
 ## 4. Demo
 
-A small dataset is included in the `data/` folder for demonstration purposes, containing simulated data and small samples from the original dataset.
+The data/ folder contains a small real-world dataset (2–3°E, 40–41°S) for demonstration. Simulated data used in statistical testing is generated internally within the R scripts.
 
 ### Execution Order:
 
-**1. R Scripts (Modeling and Analysis)**
-Run the following R scripts in order:
+### 1. R Scripts (Modeling and Analysis)
+Run the following scripts **in order** using R:
 
-* `Find lag onset time and duration.R` – identify lag timing and duration
-* `Meta analysis.R` – perform meta-analysis
-* `Games-Howell test.R` – statistical testing (Games-Howell)
-* `Forest plot.R` – generate forest plot
-  
-**2. Python Notebooks (Visualization)**
-Open and run the following `.ipynb` notebooks in VSCode or Jupyter:
+1. **`Find lag onset time and duration.R`**  
+   - **Input:** `data/1.Original data of each single point/`  
+   - **Output:** Lag timing/duration data and response plots at individual marine locations  
+   - **Note:** This step generates the dataset used by downstream scripts.
 
-* `Global distributions of annual mean factors.ipynb` – plot annual mean maps
-* `Visualization of the lag onset time and duration.ipynb` – visualize lag patterns
+2. **`2.1.Games-Howell test.R`**  
+   - **Input:** Simulated data (generated internally)  
+   - **Output:** Pairwise comparison plots between environmental drivers using Games-Howell test
 
-**3. MATLAB Script (Final Visualization)**
+3. **`3.Meta analysis.R`**  
+   - **Input:** `data/3.Summary data/`  
+   - **Output:** Meta-analysis lag effect plots and summary values at regional scale
+
+4. **`4.Forest plot.R`**  
+   - **Input:** `data/4.Forest meta data/` (filtered meta-analysis results)  
+   - **Output:** Forest plots showing maximum and minimum lag effect sizes across factors
+
+---
+
+### 2. Python Notebooks (Visualization)
+Open and run the following `.ipynb` notebooks in **JupyterLab** or **VSCode**:
+
+1. **`2.2.the lag onset visualization.ipynb`**  
+   - **Input:** `data/2.Single point results/` (generated from Step 1 in R)  
+   - **Output:** Spatial visualization of lag onset time
+
+2. **`2.3.the lag duration visualization.ipynb`**  
+   - **Input:** `data/2.Single point results/` (generated from Step 1 in R)  
+   - **Output:** Spatial visualization of lag duration
+
+3. **`5.Global distributions of annual mean factors.ipynb`**  
+   - **Input:** `data/5.Annual average data/`  
+   - **Output:** Global maps showing annual mean concentrations of selected environmental factors
+
+---
+
+### 3. MATLAB Script (Final Visualization)
 Run the following MATLAB script:
 
-* `Latitudinal_distributions.m` – visualize latitudinal distributions of lag metrics
+1. **`Code_2_4_Latitudinal_lag_onset_time_distribution.m`**  
+   - **Input:** `data/2.Single point results/`  
+   - **Output:** Latitudinal visualization of mean lag onset time
+
+2. **`Code_2_5_Latitudinal_lag_duration_distribution.m`**  
+   - **Input:** `data/2.Single point results/`  
+   - **Output:** Latitudinal visualization of mean lag duration
 
 ### Expected Runtime:
 
-* R scripts: \~30 minutes to **up to 12 hours**, depending on the dataset size and spatial extent (e.g., global scale)
+* R scripts: \~5–8 minutes (in total)
 * Python notebooks: \~2–3 minutes
 * MATLAB: \~1 minute
 
@@ -97,9 +134,16 @@ To apply the workflow to your own data:
 
 ## 6. Reproducibility
 
-This workflow allows users to reproduce the full analysis pipeline. 
+This workflow is fully reproducible with the provided subset of real data included in the `data/` folder. 
 
-* Software versions used: R (4.4.1), Python (3.12.7), MATLAB (R2024a)
-* Fixed random seeds (e.g., `set.seed(123)`) were used in R scripts to ensure consistent results from stochastic processes.
-* The actual data are not shared. However, all code, analysis steps, and output formats are identical, enabling full reproducibility of the methodology.
+- **Software versions used:**  
+  - R: 4.4.1  
+  - Python: 3.12.7  
+  - MATLAB: R2024a
+
+- **Data availability:**  
+  A small subset of real data (from 2–3°E, 40–41°S) is shared in the `data/` folder for demonstration. The full original dataset is not publicly available. Simulated data used for some statistical tests is generated internally within the R scripts.
+
+- **Reproducibility:**  
+  All code, analysis steps, and output formats are identical and fully reproducible using the provided data subset, allowing validation of the entire analysis pipeline.
 
