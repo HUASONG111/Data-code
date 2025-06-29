@@ -110,7 +110,7 @@ Run the following MATLAB script:
    - **Input:** `data/2.Single point results/`  
    - **Output:** Latitudinal visualization of mean lag duration
 
-### Expected Runtime:
+### 4. Expected Runtime:
 
 * R scripts: \~5–8 minutes (in total)
 * Python notebooks: \~2–3 minutes
