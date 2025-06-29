@@ -63,21 +63,21 @@ The data/ folder contains a small real-world dataset (2–3°E, 40–41°S) for 
 ### 1. R Scripts (Modeling and Analysis)
 Run the following scripts **in order** using R:
 
-1. **`Find lag onset time and duration.R`**  
-   - **Input:** `data/1.Original data of each single point/`  
+1. **`Code1_Find lag onset time and duration.R`**  
+   - **Input:** `data/1.Original data of each single point/` (includes `chl_01.csv`, ..., `chl_25.csv`)
    - **Output:** Lag timing/duration data and response plots at individual marine locations  
    - **Note:** This step generates the dataset used by downstream scripts.
 
-2. **`2.1.Games-Howell test.R`**  
+2. **`Code2_1_Games-Howell test.R`**  
    - **Input:** Simulated data (generated internally)  
    - **Output:** Pairwise comparison plots between environmental drivers using Games-Howell test
 
-3. **`3.Meta analysis.R`**  
-   - **Input:** `data/3.Summary data/`  
+3. **`Code3_Meta analysis.R`**  
+   - **Input:** `data/3.Summary data/` (includes `Zone1.csv`, ..., `Zone4.csv`) 
    - **Output:** Meta-analysis lag effect plots and summary values at regional scale
 
-4. **`4.Forest plot.R`**  
-   - **Input:** `data/4.Forest meta data/` (filtered meta-analysis results)  
+4. **`Code4_Forest plot.R`**  
+   - **Input:** `data/4.Forest meta data/` (filtered meta-analysis results, includes `Forest_meta_neg.xlsx` and `Forest_meta_pos.xlsx`)  
    - **Output:** Forest plots showing maximum and minimum lag effect sizes across factors
 
 ---
@@ -85,16 +85,16 @@ Run the following scripts **in order** using R:
 ### 2. Python Notebooks (Visualization)
 Open and run the following `.ipynb` notebooks in **JupyterLab** or **VSCode**:
 
-1. **`2.2.the lag onset visualization.ipynb`**  
-   - **Input:** `data/2.Single point results/` (generated from Step 1 in R)  
+1. **`Code2_2_the lag onset visualization.ipynb`**  
+   - **Input:** `data/2.Single point results/` (generated from Code1_Find lag onset time and duration.R, includes `lagday_po4.csv`, ..., `lagday_ssw.csv`)  
    - **Output:** Spatial visualization of lag onset time
 
-2. **`2.3.the lag duration visualization.ipynb`**  
-   - **Input:** `data/2.Single point results/` (generated from Step 1 in R)  
+2. **`Code2_3_the lag duration visualization.ipynb`**  
+   - **Input:** `data/2.Single point results/` (generated from Code1_Find lag onset time and duration.R, includes `duration_po4.csv`, ..., `durtion_ssw.csv`)  
    - **Output:** Spatial visualization of lag duration
 
-3. **`5.Global distributions of annual mean factors.ipynb`**  
-   - **Input:** `data/5.Annual average data/`  
+3. **`Code5_Global distributions of annual mean factors.ipynb`**  
+   - **Input:** `data/5.Annual average data/` (includes `Chl_data.mar`, `Lat.mat` and `Lon.mat`)  
    - **Output:** Global maps showing annual mean concentrations of selected environmental factors
 
 ---
@@ -102,12 +102,12 @@ Open and run the following `.ipynb` notebooks in **JupyterLab** or **VSCode**:
 ### 3. MATLAB Script (Final Visualization)
 Run the following MATLAB script:
 
-1. **`Code_2_4_Latitudinal_lag_onset_time_distribution.m`**  
-   - **Input:** `data/2.Single point results/`  
+1. **`Code2_4_Latitudinal_lag_onset_time_distribution.m`**  
+   - **Input:** `data/2.Single point results/` (includes `lagday_po4.csv`, ..., `lagday_ssw.csv`) 
    - **Output:** Latitudinal visualization of mean lag onset time
 
-2. **`Code_2_5_Latitudinal_lag_duration_distribution.m`**  
-   - **Input:** `data/2.Single point results/`  
+2. **`Code2_5_Latitudinal_lag_duration_distribution.m`**  
+   - **Input:** `data/2.Single point results/` (includes `duration_po4.csv`, ..., `durtion_ssw.csv`) 
    - **Output:** Latitudinal visualization of mean lag duration
 
 ### 4. Expected Runtime
