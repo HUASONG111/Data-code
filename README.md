@@ -122,7 +122,7 @@ Run the following MATLAB script:
 
 To apply the workflow to your own data:
 
-1. Replace the simulated dataset in `data/` with your own data (matching format is required)
+1. Replace the dataset in `data/` with your own data (matching format is required)
 2. Adjust file paths inside each script if needed
 3. Follow the prescribed execution order:
 
