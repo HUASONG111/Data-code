@@ -111,121 +111,63 @@ process_file <- function(i) {
     mat <- mat_list[[j]]
     cum <- cum_list[[j]]
     
+    
     if (all(cum$erh * cum$erl < 0)) {
-      lag_start <- -999
-      duration <- 0
-      effect_sign <- NA
-    } else if (all(mat$erh * mat$erl > 0) && all(cum$erh * cum$erl > 0)) {
-      lag_start <- 0
-      duration <- 16
+      lag_start <- -999; duration <- 0; effect_sign <- NA
+    } else if ( (all(mat$erh > 0 & mat$erl > 0) || all(mat$erh < 0 & mat$erl < 0)) && all(cum$erh * cum$erl > 0) ) {
+      lag_start <- 0; duration <- 16 
       effect_sign <- ifelse(mat$erh[1] > 0, "Positive", "Negative")
     } else if (any(cum$erh * cum$erl > 0) && all(mat$erh * mat$erl <= 0)) {
-      lag_start <- -999
-      duration <- 0
-      effect_sign <- NA
+      lag_start <- -999; duration <- 0; effect_sign <- NA
     } else {
-      valid_days <- which(cum$erh * cum$erl > 0)	
+      valid_days <- which(cum$erh * cum$erl > 0)
       if (length(valid_days) > 0) {
         if (all(cum$erh[valid_days] > 0) || all(cum$erl[valid_days] < 0)) {
-          effect_day <- which(mat$erh * mat$erl > 0)[1]
-          lag_start <- effect_day-1
-          end_day <- which(mat$erh * mat$erl <= 0)[which(mat$erh * mat$erl <= 0) > effect_day]
-          
-          if (length(end_day) == 0) {
-            duration <- 17 - effect_day  # 
-          } else {
-            duration <- end_day[1] - effect_day   #
-          }
+          effect_day <- which(mat$erh * mat$erl > 0)[1] 
+          lag_start <- effect_day - 1
           effect_sign <- ifelse(mat$erh[effect_day] > 0, "Positive", "Negative")
+          if (effect_sign == "Positive") {
+            end_day_indices <- which( !(mat$erh > 0 & mat$erl > 0) )
+          } else { # effect_sign == "Negative"
+            end_day_indices <- which( !(mat$erh < 0 & mat$erl < 0) )
+          }
+          end_day <- end_day_indices[end_day_indices > effect_day]
+          if (length(end_day) == 0) { duration <- 17 - effect_day } else { duration <- end_day[1] - effect_day }
         } else {
-          
           negative_days <- valid_days[cum$erh[valid_days] < 0 & cum$erl[valid_days] < 0]
           positive_days <- valid_days[cum$erh[valid_days] > 0 & cum$erl[valid_days] > 0]
-          
-          if (length(negative_days) > 0) {
-            max_negative_erh <- max(abs(cum$erh[negative_days]))
-          } else {
-            max_negative_erh <- -Inf 
-          }
-          
-          
-          if (length(positive_days) > 0) {
-            max_positive_erl <- max(cum$erl[positive_days])
-          } else {
-            max_positive_erl <- -Inf 
-          }
-          
-          
-          if ( max_positive_erl > max_negative_erh ) {
-            effect_day <- which(mat$erh > 0 & mat$erl > 0)[1]
-            lag_start <- effect_day-1
-            end_day <- which(mat$erh * mat$erl <= 0)[which(mat$erh * mat$erl <= 0) > effect_day][1]
-            
-            if (length(end_day) == 0) {
-              duration <- 17 - effect_day  
-            } else if (is.na(end_day)) {
-              end_day <- which(mat$erh < 0 & mat$erl < 0)[which(mat$erh<0 & mat$erl < 0) > effect_day][1]
-              if (is.na(end_day) || length(end_day) == 0) {
-                duration <- 17 - effect_day 
-              } else {
-                duration <- end_day[1] - effect_day
-              }
-            } else {
-              duration <- end_day[1] - effect_day   
-            }
+          max_negative_erh <- if (length(negative_days) > 0) max(abs(cum$erh[negative_days])) else -Inf
+          max_positive_erl <- if (length(positive_days) > 0) max(cum$erl[positive_days]) else -Inf
+          if (max_positive_erl > max_negative_erh) {
             effect_sign <- "Positive"
+            effect_day <- which(mat$erh > 0 & mat$erl > 0)[1]
           } else if (max_positive_erl < max_negative_erh) {
-            effect_day <- which(mat$erh < 0 & mat$erl < 0)[1]
-            lag_start <- effect_day - 1
-            end_day <- which(mat$erh * mat$erl <= 0)[which(mat$erh * mat$erl <= 0) > effect_day]
-            
-            if (length(end_day) == 0) {
-              duration <- 17 - effect_day  
-            } else if (is.na(end_day)) {
-              end_day <- which(mat$erh > 0 & mat$erl > 0)[which(mat$erh>0 & mat$erl > 0) > effect_day][1]
-              if (is.na(end_day) || length(end_day) == 0) {
-                duration <- 17 - effect_day  
-              } else {
-                duration <- end_day[1] - effect_day
-              }
-            } else {
-              duration <- end_day[1] - effect_day  
-            }
             effect_sign <- "Negative"
-          } else {  
+            effect_day <- which(mat$erh < 0 & mat$erl < 0)[1] 
+          } else {
             first_positive_day <- which(cum$erh * cum$erl > 0)[1]
             if (cum$erh[first_positive_day] > 0) {
-              effect_day <- which(mat$erh > 0 & mat$erl > 0)[1]
-              lag_start <- effect_day - 1
-              end_day <- which(mat$erh * mat$erl <= 0)[which(mat$erh * mat$erl <= 0) > effect_day]
-              
-              if (length(end_day) == 0) {
-                duration <- 17 - effect_day 
-              } else {
-                duration <- end_day[1] - effect_day  
-              }
               effect_sign <- "Positive"
+              effect_day <- which(mat$erh > 0 & mat$erl > 0)[1]
             } else {
-              effect_day <- which(mat$erh < 0 & mat$erl < 0)[1]
-              lag_start <- effect_day - 1
-              end_day <- which(mat$erh * mat$erl <= 0)[which(mat$erh * mat$erl <= 0) > effect_day]
-              
-              if (length(end_day) == 0) {
-                duration <- 17 - effect_day  
-              } else {
-                duration <- end_day[1] - effect_day  
-              }
               effect_sign <- "Negative"
+              effect_day <- which(mat$erh < 0 & mat$erl < 0)[1]
             }
           }
+          lag_start <- effect_day - 1
+          if (effect_sign == "Positive") {
+            end_day_indices <- which( !(mat$erh > 0 & mat$erl > 0) )
+          } else { # effect_sign == "Negative"
+            end_day_indices <- which( !(mat$erh < 0 & mat$erl < 0) )
+          }
+          end_day <- end_day_indices[end_day_indices > effect_day]
+          if (length(end_day) == 0) { duration <- 17 - effect_day } else { duration <- end_day[1] - effect_day }
         }
       } else {
-        lag_start <- -999
-        duration <- 0
-        effect_sign <- NA
+        lag_start <- -999; duration <- 0; effect_sign <- NA
       }
     }
-    
+ 
     lag_results[[length(lag_results) + 1]] <- data.frame(Filename = i, Variable = variables[j], Start_Lag = lag_start, Duration = duration, Effect_Sign = effect_sign)
   }
   
