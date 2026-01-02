@@ -94,7 +94,7 @@ Open and run the following `.ipynb` notebooks in **JupyterLab** or **VSCode**:
    - **Output:** Spatial visualization of lag duration
 
 3. **`Code5_Global distributions of annual mean factors.ipynb`**  
-   - **Input:** `data/5.Annual average data/` (includes `Chl_data.mar`, `Lat.mat` and `Lon.mat`)  
+   - **Input:** `data/5.Annual average data/` (includes `Chl_data.mat`, `Lat.mat` and `Lon.mat`)  
    - **Output:** Global maps showing annual mean concentrations of selected environmental factors
 
 ---
